@@ -89,7 +89,7 @@
     }
     function hapus(pesan,id_transaksi,id_buku){
         if(confirm(pesan)){
-             window.location.href = '?halaman=proses_hapus&id='+id_transaksi+'&buku='+id_buku;
+             window.location.href = '?halaman=hapus&id='+id_transaksi+'&buku='+id_buku;
         }
     }
 </script>

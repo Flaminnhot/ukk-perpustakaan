@@ -47,7 +47,13 @@ if(isset($_POST['tombol'])){
     $query  = "INSERT INTO transaksi(id_anggota,id_buku,tgl_pinjam,status_transaksi) VALUES('$id_anggota','$id_buku','$tgl_pinjam','$status_transaksi')";
     $data   = mysqli_query( $koneksi, $query);
     if($data){
-        mysqli_query($koneksi, "UPDATE buku SET status='tidak' WHERE id_buku=' $id_buku'");
+        mysqli_query($koneksi, "UPDATE buku SET stok=stok-1 WHERE id_buku='$id_buku'");
+        // Cek stok setelah dikurangi
+        $cek_stok = mysqli_query($koneksi, "SELECT stok FROM buku WHERE id_buku='$id_buku'");
+        $sisa = mysqli_fetch_assoc($cek_stok)['stok'];
+        if($sisa <= 0){
+            mysqli_query($koneksi, "UPDATE buku SET status='tidak' WHERE id_buku='$id_buku'");
+        }
         echo "<script>alert('! Data peminjaman tersimpan'); window.location.assign('?halaman=data_peminjaman');</script>";
     }else{
         echo"<script>alert('! Data gagal tersimpan'); window.location.assign('?halaman=input_peminjaman');</script>";
